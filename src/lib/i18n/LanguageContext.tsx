@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import { translations, Language, Translations } from './translations'
 
 type LanguageContextType = {
@@ -15,17 +15,14 @@ const LanguageContext = createContext<LanguageContextType>({
   t: translations.th,
 })
 
-export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [lang, setLangState] = useState<Language>('th')
-
-  useEffect(() => {
-    const stored = localStorage.getItem('please-payment-lang') as Language | null
-    if (stored === 'en' || stored === 'th') setLangState(stored)
-  }, [])
+export const LanguageProvider = ({ children, initialLang }: { children: React.ReactNode; initialLang: Language }) => {
+  // ใช้ initialLang ที่ฝั่ง server อ่านมาจาก cookie ให้ตรงกับ client เป๊ะตั้งแต่ render แรก
+  // กัน hydration mismatch (ห้ามอ่าน localStorage ตอน init state เพราะ server มองไม่เห็น ทำให้ค่าไม่ตรงกัน)
+  const [lang, setLangState] = useState<Language>(initialLang)
 
   const setLang = (next: Language) => {
     setLangState(next)
-    localStorage.setItem('please-payment-lang', next)
+    document.cookie = `please-payment-lang=${next}; path=/; max-age=31536000`
   }
 
   return (

@@ -10,6 +10,12 @@ export interface Translations {
     steps: { label: string; desc: string }[]
   }
   nonCustodial: { heading: string; body1: string; bodyStrong: string; body2: string }
+  painPoints: {
+    heading: string
+    headingAccent: string
+    subtitle: string
+    items: { problem: string; solution: string }[]
+  }
   diagram: {
     heading: string
     headingAccent: string
@@ -21,6 +27,23 @@ export interface Translations {
     middleman: string
     middlemanNote: string
     oursNote: string
+  }
+  preview: {
+    heading: string
+    headingAccent: string
+    subtitle: string
+    tabOverview: string
+    tabPayIn: string
+  }
+  pricing: {
+    heading: string
+    headingAccent: string
+    question: string
+    answer: string
+    models: { title: string; desc: string }[]
+    note: string
+    ctaText: string
+    ctaButton: string
   }
   useCases: {
     heading: string
@@ -42,6 +65,17 @@ export const translations: Record<Language, Translations> = {
       headlineAccent: 'ไม่ผ่านเราเลย',
       description:
         'Please Payment คือ payment gateway ที่ทำหน้าที่แค่สร้าง QR ให้ลูกค้าสแกนจ่าย เงินทุกบาททุกสตางค์โอนตรงเข้าบัญชีธนาคารของร้านค้าทันที เราไม่มีการพักเงินไว้ที่ระบบของเราเลย',
+    },
+    painPoints: {
+      heading: 'ปัญหาที่ร้านค้าเจอบ่อย',
+      headingAccent: 'แล้วเราช่วยแก้ยังไง',
+      subtitle: 'เปรียบเทียบปัญหาที่พบกับ payment gateway ทั่วไป กับวิธีที่ Please Payment แก้ให้',
+      items: [
+        { problem: 'เงินไม่เข้าทันที ต้องรอตัดรอบ T+1, T+3', solution: 'เงินเข้าบัญชีร้านค้าทันทีที่ลูกค้าจ่าย ไม่มีการตัดรอบเลย' },
+        { problem: 'กลัวเงินค้างที่ตัวกลาง ถ้าระบบมีปัญหาหรือถูกอายัด', solution: 'เงินไม่เคยผ่านเราเลย จึงไม่มีความเสี่ยงเงินค้างหรือถูกอายัดที่ตัวกลาง' },
+        { problem: 'ต้องเปิดบัญชี/wallet ใหม่กับ payment gateway ขั้นตอนยุ่งยาก', solution: 'ใช้บัญชีธนาคารที่ร้านค้ามีอยู่แล้วได้เลย ไม่ต้องเปิดบัญชีใหม่' },
+        { problem: 'ต้องนั่งตรวจสลิปโอนเงินเอง เสี่ยงสลิปปลอม', solution: 'ระบบยืนยันการจ่ายเงินอัตโนมัติแบบ real-time ลดความเสี่ยงสลิปปลอมและงานซ้ำซ้อน' },
+      ],
     },
     howItWorks: {
       heading: 'วิธี',
@@ -72,6 +106,27 @@ export const translations: Record<Language, Translations> = {
       middlemanNote: 'เงินพักที่นี่ก่อน',
       oursNote: 'แค่สร้าง QR + แจ้งเตือน (ไม่แตะเงินเลย)',
     },
+    preview: {
+      heading: 'หน้าจอ',
+      headingAccent: 'ของจริง',
+      subtitle: 'ตัวอย่างหน้าจอ Merchant Portal ที่ร้านค้าใช้งานจริง (ข้อมูลในภาพเป็นตัวอย่าง)',
+      tabOverview: 'ภาพรวม',
+      tabPayIn: 'รายการรับเงิน',
+    },
+    pricing: {
+      heading: 'แล้วเรา',
+      headingAccent: 'คิดค่าบริการยังไง',
+      question: '“ในเมื่อเงินไม่ได้ผ่านระบบของ Please Payment เลย แล้วจะหักค่าบริการกันยังไง?”',
+      answer: 'คำตอบคือ เราไม่ได้หักค่าบริการแบบอัตโนมัติทันทีที่มีการจ่ายเงิน (เพราะเงินไม่ได้ผ่านเราจริง ๆ) แต่จะ “วางบิล” เรียกเก็บค่าบริการทุกสิ้นเดือนแทน โดยรูปแบบการคิดค่าบริการสามารถเลือกได้ตามที่ตกลงกันในสัญญา เช่น',
+      models: [
+        { title: '% จากยอดเงิน', desc: 'คิดเป็นเปอร์เซ็นต์จากยอดเงินรวมที่ผ่านระบบในแต่ละเดือน' },
+        { title: 'เหมาจ่ายรายเดือน', desc: 'จ่ายอัตราคงที่ต่อเดือน ไม่ว่ายอดเงินจะมากหรือน้อย' },
+        { title: 'คิดตามจำนวนครั้ง', desc: 'คิดค่าบริการตามจำนวนรายการที่เกิดขึ้นจริงในแต่ละเดือน' },
+      ],
+      note: 'อัตราค่าบริการที่แน่นอนขึ้นอยู่กับการเจรจาและความเหมาะสมกับธุรกิจของคุณ',
+      ctaText: 'เราเชื่อว่าราคาของเราคุ้มค่ากว่าที่อื่นแน่นอน ขอแค่มาคุยกับเราก่อน',
+      ctaButton: 'ติดต่อเราเพื่อขอราคา',
+    },
     useCases: {
       heading: 'เอาไปใช้',
       headingAccent: 'ทำอะไรได้บ้าง',
@@ -88,7 +143,7 @@ export const translations: Record<Language, Translations> = {
       linksTitle: 'ลิงก์',
       links: ['วิธีการทำงาน', 'การไหลของเงิน', 'เอาไปใช้ทำอะไรได้บ้าง'],
       contactTitle: 'ติดต่อเรา',
-      copyright: 'Please Payment — A WinTech Product',
+      copyright: 'Please Payment — A Dev Hub Product',
     },
   },
   en: {
@@ -101,6 +156,17 @@ export const translations: Record<Language, Translations> = {
       headlineAccent: 'never through us',
       description:
         'Please Payment is a payment gateway that only generates a QR code for customers to scan and pay. Every baht is transferred directly into the merchant’s own bank account — we never hold the money in our system at all.',
+    },
+    painPoints: {
+      heading: 'Common Pain Points,',
+      headingAccent: ' Solved',
+      subtitle: 'How typical payment gateway problems compare to the Please Payment way.',
+      items: [
+        { problem: 'Money doesn’t arrive instantly — you wait for T+1 or T+3 settlement', solution: 'Funds land in your bank account the moment the customer pays — no settlement cycle at all' },
+        { problem: 'Worried about funds stuck with a middleman if something goes wrong', solution: 'Your money never passes through us, so there’s zero risk of funds being held or frozen by a middleman' },
+        { problem: 'Opening a new account/wallet with a payment gateway is a hassle', solution: 'Use your existing bank account — no new account or wallet needed' },
+        { problem: 'Manually checking payment slips yourself, risking fake slip scams', solution: 'Payments are confirmed automatically in real-time, cutting fake-slip risk and manual work' },
+      ],
     },
     howItWorks: {
       heading: 'How It',
@@ -131,6 +197,27 @@ export const translations: Record<Language, Translations> = {
       middlemanNote: 'Money sits here first',
       oursNote: 'Only generates QR + notifies (never touches the money)',
     },
+    preview: {
+      heading: 'See It',
+      headingAccent: ' In Action',
+      subtitle: 'A look at the actual Merchant Portal screens (sample data shown).',
+      tabOverview: 'Overview',
+      tabPayIn: 'Pay-In Requests',
+    },
+    pricing: {
+      heading: 'So How Do We',
+      headingAccent: ' Charge You',
+      question: '"If the money never passes through Please Payment, how do you deduct your fee?"',
+      answer: 'We don’t deduct a fee automatically at the moment of payment (since the money genuinely never touches our system). Instead, we invoice you monthly. The billing model itself is flexible and agreed upon in the contract, for example:',
+      models: [
+        { title: '% of Volume', desc: 'A percentage of the total transaction volume processed each month' },
+        { title: 'Flat Monthly Fee', desc: 'A fixed monthly rate regardless of transaction volume' },
+        { title: 'Per-Transaction', desc: 'Charged based on the actual number of transactions each month' },
+      ],
+      note: 'The exact rate depends on negotiation and what fits your business best.',
+      ctaText: 'We’re confident our pricing beats the competition — just talk to us first.',
+      ctaButton: 'Contact Us for Pricing',
+    },
     useCases: {
       heading: 'What Can You',
       headingAccent: ' Build With This',
@@ -147,7 +234,7 @@ export const translations: Record<Language, Translations> = {
       linksTitle: 'Links',
       links: ['How It Works', 'Money Flow', 'Use Cases'],
       contactTitle: 'Contact',
-      copyright: 'Please Payment — A WinTech Product',
+      copyright: 'Please Payment — A Dev Hub Product',
     },
   },
 }
