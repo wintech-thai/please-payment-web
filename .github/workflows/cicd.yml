@@ -66,13 +66,14 @@ jobs:
         echo ::set-output name=dockerFile::${DOCKERFILE}
 
     - name: Slack notification start
+      continue-on-error: true
       uses: 8398a7/action-slack@v3
       with:
         status: ${{ job.status }}
         fields: repo,message,commit,author,ref,workflow # selectable (default: repo,message)
         text: "Start building [${{matrix.service}}] [${{ steps.prep.outputs.version }}]..."
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_URL }} # required
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_URL }} # optional - missing secret won't block the build
 
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
@@ -103,13 +104,14 @@ jobs:
 
     - name: Slack notification end
       if: always()
+      continue-on-error: true
       uses: 8398a7/action-slack@v3
       with:
         status: ${{ job.status }}
         fields: repo,message,commit,author,ref,workflow # selectable (default: repo,message)
         text: "Done building [${{matrix.service}}] [${{ steps.prep.outputs.version }}] with status [${{job.status}}]"
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_URL }} # required
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_URL }} # optional - missing secret won't block the build
 
   deploy:
     needs: [ build1 ]
@@ -118,13 +120,14 @@ jobs:
 
     - name: Slack notification start
       if: always()
+      continue-on-error: true
       uses: 8398a7/action-slack@v3
       with:
         status: ${{ job.status }}
         fields: repo,message,commit,author,ref,workflow # selectable (default: repo,message)
         text: "Start deploying [please-payment-web] [${{ needs.build1.outputs.imageTag }}] to [${{ needs.build1.outputs.autoDeployEnv }}]..."
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_URL }} # required
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_URL }} # optional - missing secret won't block the deploy
 
     # Auto deploy
     - name: Deploy1
@@ -151,10 +154,11 @@ jobs:
 
     - name: Slack notification end
       if: always()
+      continue-on-error: true
       uses: 8398a7/action-slack@v3
       with:
         status: ${{ job.status }}
         fields: repo,message,commit,author,ref,workflow # selectable (default: repo,message)
         text: "Done deploying [please-payment-web] [${{ needs.build1.outputs.imageTag }}] to [${{ needs.build1.outputs.autoDeployEnv }}]"
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_URL }} # required
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_URL }} # optional - missing secret won't block the deploy
