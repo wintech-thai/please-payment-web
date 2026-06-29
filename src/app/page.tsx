@@ -6,7 +6,7 @@ export default function HomePage() {
         Non-custodial QR payment gateway — money goes straight into the merchant&apos;s own bank account.
       </p>
       <span className="mt-8 inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-primary-50 text-primary-700 ring-1 ring-primary-200">
-        Coming soon
+        Coming soon !!
       </span>
     </main>
   )
