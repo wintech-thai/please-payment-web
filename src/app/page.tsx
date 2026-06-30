@@ -3,19 +3,11 @@
 import { useState } from 'react'
 import clsx from 'clsx'
 import { motion } from 'framer-motion'
-import { QrCode, Landmark, Webhook, ShieldCheck, ShoppingCart, PackageCheck, Ticket, Store, User, ArrowRight, Mail, Phone, MapPin, Percent, Wallet, Hash, MessageCircleQuestion, X, Check } from 'lucide-react'
-
-const contactInfo = [
-  { icon: Mail, text: 'contact@dev-hubs.com', href: 'mailto:contact@dev-hubs.com' },
-  { icon: Phone, text: '66(0) 94-249-4880', href: 'tel:+66942494880' },
-  {
-    icon: MapPin,
-    text: 'Dev Hub Co., Ltd.',
-    text2: '55 Sutthisan Winitchai Road, Din Daeng, Bangkok 10400, Thailand',
-    href: '#',
-  },
-]
+import { QrCode, Landmark, Webhook, ShieldCheck, ShoppingCart, PackageCheck, Ticket, Store, User, ArrowRight, Percent, Wallet, Hash, MessageCircleQuestion, X, Check, ChevronDown } from 'lucide-react'
 import { useLanguage } from '@/lib/i18n/LanguageContext'
+import { NavBar } from '@/components/NavBar'
+import { SiteFooter } from '@/components/SiteFooter'
+import ParticleBackground from '@/components/ParticleBackground'
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -27,65 +19,6 @@ const stepIcons = [QrCode, ShoppingCart, Landmark, Webhook]
 const caseIcons = [PackageCheck, ShoppingCart, Store, Ticket]
 const pricingIcons = [Percent, Wallet, Hash]
 
-function LangToggle() {
-  const { lang, setLang } = useLanguage()
-  return (
-    <button
-      onClick={() => setLang(lang === 'en' ? 'th' : 'en')}
-      aria-label="Toggle language"
-      className="flex items-center gap-1 rounded-lg border border-slate-600/60 px-3 py-1.5 text-xs font-semibold transition-all hover:border-primary-500/50 hover:bg-slate-700/60"
-    >
-      <span className={lang === 'en' ? 'text-white' : 'text-slate-500'}>EN</span>
-      <span className="text-slate-600 mx-0.5">|</span>
-      <span className={lang === 'th' ? 'text-white' : 'text-slate-500'}>TH</span>
-    </button>
-  )
-}
-
-const navAnchors = ['#how-it-works', '#diagram', '#use-cases']
-
-function NavBar() {
-  const { t } = useLanguage()
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700/50">
-      <div className="max-w-6xl mx-auto px-6 h-20 flex items-center">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="flex items-center gap-2.5 shrink-0"
-        >
-          <img src="/logo.svg" alt="Please Payment" width={36} height={36} className="rounded-lg" />
-          <span className="text-xl font-bold text-white">
-            Please<span className="text-primary-400"> Payment</span>
-          </span>
-        </motion.button>
-
-        <div className="hidden md:flex items-center justify-between flex-1 ml-8">
-          <div className="flex items-center gap-0.5">
-            {t.footer.links.map((link, i) => (
-              <a
-                key={i}
-                href={navAnchors[i]}
-                className="px-3.5 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700/60 transition-all"
-              >
-                {link}
-              </a>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-3">
-            <LangToggle />
-          </div>
-        </div>
-
-        {/* Mobile: lang toggle still visible when menu links are hidden */}
-        <div className="md:hidden flex items-center gap-3 ml-auto">
-          <LangToggle />
-        </div>
-      </div>
-    </nav>
-  )
-}
 
 function FlowStep({ icon, label, desc, delay }: { icon: React.ReactNode; label: string; desc: string; delay: number }) {
   return (
@@ -245,6 +178,7 @@ function PayInRequestsMockup() {
 export default function HomePage() {
   const { t } = useLanguage()
   const [previewTab, setPreviewTab] = useState<'overview' | 'payin'>('overview')
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   return (
     <main className="min-h-screen w-full overflow-x-clip bg-slate-950">
@@ -252,6 +186,7 @@ export default function HomePage() {
 
       {/* Hero */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 overflow-hidden">
+        <ParticleBackground />
         <div className="absolute inset-0 -z-10 overflow-hidden">
           <div className="absolute top-24 left-4 sm:left-16 w-80 h-80 bg-primary-600 rounded-full blur-3xl opacity-15 animate-pulse" />
           <div className="absolute top-48 right-4 sm:right-16 w-80 h-80 bg-amber-500 rounded-full blur-3xl opacity-10 animate-pulse" style={{ animationDelay: '2s' }} />
@@ -516,72 +451,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="relative bg-slate-950 border-t border-slate-800">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary-500/50 to-transparent" />
-
-        <div className="max-w-6xl mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="space-y-3">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="flex items-center gap-2.5"
-              >
-                <img src="/logo.svg" alt="Please Payment" width={32} height={32} className="rounded-lg" />
-                <span className="text-xl font-bold text-white">
-                  Please<span className="text-primary-400"> Payment</span>
-                </span>
-              </motion.button>
-              <p className="text-slate-400 text-sm leading-relaxed max-w-sm">{t.footer.description}</p>
-            </motion.div>
-
-            <motion.div {...fadeUp} transition={{ duration: 0.6, delay: 0.1 }} className="space-y-3">
-              <h3 className="text-sm font-semibold text-white">{t.footer.linksTitle}</h3>
-              <ul className="space-y-2">
-                {t.footer.links.map((link, i) => (
-                  <motion.li key={i} whileHover={{ x: 5 }} className="text-slate-400 hover:text-primary-400 text-sm transition-colors">
-                    <a href={navAnchors[i]}>{link}</a>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-
-            <motion.div id="contact" {...fadeUp} transition={{ duration: 0.6, delay: 0.2 }} className="space-y-3">
-              <h3 className="text-sm font-semibold text-white">{t.footer.contactTitle}</h3>
-              <div className="space-y-3">
-                {contactInfo.map((contact, i) => {
-                  const Icon = contact.icon
-                  return (
-                    <motion.a
-                      key={i}
-                      href={contact.href}
-                      whileHover={{ x: 5 }}
-                      className="flex items-start gap-3 text-slate-400 hover:text-primary-400 transition-colors group"
-                    >
-                      <Icon className="w-4 h-4 group-hover:text-primary-400 shrink-0 mt-0.5" />
-                      <span className="text-sm">
-                        {contact.text}
-                        {contact.text2 && <><br />{contact.text2}</>}
-                      </span>
-                    </motion.a>
-                  )
-                })}
-              </div>
-            </motion.div>
-          </div>
-
-          <motion.div
-            {...fadeUp}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-10 pt-6 border-t border-slate-800 text-center"
-          >
-            <p className="text-slate-500 text-sm">© {new Date().getFullYear()} {t.footer.copyright}</p>
+      {/* FAQ */}
+      <section id="faq" className="relative py-20 px-6 border-t border-slate-800/60">
+        <div className="max-w-3xl mx-auto">
+          <motion.div {...fadeUp} transition={{ duration: 0.6 }} className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
+              {t.faq.heading}
+              <span className="bg-gradient-to-r from-primary-400 to-amber-400 bg-clip-text text-transparent">{t.faq.headingAccent}</span>
+            </h2>
+            <p className="text-slate-400">{t.faq.subtitle}</p>
           </motion.div>
-        </div>
 
-        <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-primary-600 via-amber-500 to-primary-600" />
-      </footer>
+          <div className="space-y-3">
+            {t.faq.items.map((item, i) => (
+              <motion.div
+                key={i}
+                {...fadeUp}
+                transition={{ duration: 0.5, delay: i * 0.06 }}
+                className="rounded-2xl border border-slate-700/50 bg-slate-800/30 overflow-hidden"
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full flex items-center justify-between gap-4 px-6 py-4 text-left hover:bg-slate-700/20 transition-colors"
+                >
+                  <span className="font-semibold text-white text-sm leading-relaxed">{item.q}</span>
+                  <ChevronDown
+                    className={clsx('w-5 h-5 shrink-0 text-primary-400 transition-transform duration-300', openFaq === i && 'rotate-180')}
+                  />
+                </button>
+                {openFaq === i && (
+                  <div className="px-6 pb-5 border-t border-slate-700/40">
+                    <p className="text-slate-300 text-sm leading-relaxed pt-4">{item.a}</p>
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <SiteFooter />
     </main>
   )
 }
