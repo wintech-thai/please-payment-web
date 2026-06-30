@@ -324,11 +324,33 @@ export const translations: Record<Language, Translations> = {
           ],
         },
         {
-          heading: '7. กฎหมายที่ใช้บังคับ',
+          heading: '7. ค่าธรรมเนียมและการชำระเงิน',
+          items: [
+            { label: 'ค่าธรรมเนียมการใช้บริการจะแจ้งให้ทราบในสัญญาหรือใบเสนอราคาที่ตกลงกัน', text: 'โดยอาจแตกต่างกันตามแพ็กเกจที่เลือก' },
+            { label: 'Please Payment สงวนสิทธิ์ปรับเปลี่ยนค่าธรรมเนียม', text: 'โดยแจ้งล่วงหน้าไม่น้อยกว่า 30 วันผ่านทางอีเมลหรือบนเว็บไซต์' },
+            { label: 'การไม่ชำระค่าบริการภายในกำหนด', text: 'อาจส่งผลให้บัญชีถูกระงับชั่วคราวจนกว่าจะชำระครบ' },
+          ],
+        },
+        {
+          heading: '8. ทรัพย์สินทางปัญญา',
+          items: [
+            { label: 'ซอฟต์แวร์ โค้ด เครื่องหมายการค้า และเนื้อหาทั้งหมดของ Please Payment', text: 'เป็นทรัพย์สินของ Dev Hub Co., Ltd. และได้รับความคุ้มครองตามกฎหมาย' },
+            { label: 'ร้านค้าไม่มีสิทธิ์คัดลอก ดัดแปลง หรือนำระบบของเราไปใช้งานในเชิงพาณิชย์', text: 'โดยไม่ได้รับอนุญาตเป็นลายลักษณ์อักษรจากเรา' },
+          ],
+        },
+        {
+          heading: '9. การแก้ไขข้อกำหนด',
+          items: [
+            { label: 'เราสงวนสิทธิ์แก้ไขข้อกำหนดนี้ได้ตลอดเวลา', text: 'โดยแจ้งล่วงหน้าไม่น้อยกว่า 30 วันผ่านทางอีเมลหรือบนเว็บไซต์' },
+            { label: 'การใช้บริการต่อไปหลังจากที่ข้อกำหนดฉบับใหม่มีผลบังคับใช้', text: 'ถือว่าร้านค้ายอมรับข้อกำหนดที่แก้ไขแล้วทุกประการ' },
+          ],
+        },
+        {
+          heading: '10. กฎหมายที่ใช้บังคับ',
           text: 'ข้อกำหนดนี้อยู่ภายใต้กฎหมายแห่งราชอาณาจักรไทย ข้อพิพาทใด ๆ ให้อยู่ในเขตอำนาจของศาลไทย',
         },
         {
-          heading: '8. ติดต่อเรา',
+          heading: '11. ติดต่อเรา',
           intro: 'หากมีคำถามเกี่ยวกับข้อกำหนดนี้ หรือพบการใช้งานที่ไม่เหมาะสม กรุณาติดต่อเรา:',
           contact: { company: 'Dev Hub Co., Ltd.', address: '55 Sutthisan Winitchai Road, Din Daeng, Bangkok 10400, Thailand', email: 'contact@dev-hubs.com', phone: '66(0) 94-249-4880' },
         },
@@ -569,11 +591,33 @@ export const translations: Record<Language, Translations> = {
           ],
         },
         {
-          heading: '7. Governing Law',
+          heading: '7. Pricing & Payment Terms',
+          items: [
+            { label: 'Service fees will be communicated in the agreed contract or quotation', text: 'and may vary depending on the selected package.' },
+            { label: 'Please Payment reserves the right to adjust fees', text: 'with no less than 30 days\' notice via email or on our website.' },
+            { label: 'Failure to pay service fees by the due date', text: 'may result in temporary account suspension until payment is settled.' },
+          ],
+        },
+        {
+          heading: '8. Intellectual Property',
+          items: [
+            { label: 'All software, code, trademarks, and content of Please Payment', text: 'are the property of Dev Hub Co., Ltd. and are protected under applicable law.' },
+            { label: 'Merchants may not copy, modify, or commercially use our systems', text: 'without prior written consent from us.' },
+          ],
+        },
+        {
+          heading: '9. Amendments to Terms',
+          items: [
+            { label: 'We reserve the right to amend these terms at any time', text: 'with at least 30 days\' notice via email or on our website.' },
+            { label: 'Continued use of the service after the amended terms take effect', text: 'constitutes acceptance of the updated terms.' },
+          ],
+        },
+        {
+          heading: '10. Governing Law',
           text: 'These terms are governed by the laws of the Kingdom of Thailand. Any dispute shall be subject to the jurisdiction of the Thai courts.',
         },
         {
-          heading: '8. Contact Us',
+          heading: '11. Contact Us',
           intro: 'For questions about these terms, or to report improper use of the platform, please contact us at:',
           contact: { company: 'Dev Hub Co., Ltd.', address: '55 Sutthisan Winitchai Road, Din Daeng, Bangkok 10400, Thailand', email: 'contact@dev-hubs.com', phone: '66(0) 94-249-4880' },
         },
