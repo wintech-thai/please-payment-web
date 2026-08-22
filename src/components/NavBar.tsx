@@ -49,6 +49,16 @@ export function NavBar() {
           <div className="flex items-center gap-3">
             <span className="text-slate-700">|</span>
             <a
+              href="/pitch"
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                pathname === '/pitch'
+                  ? 'border border-primary-500/60 bg-primary-500/10 text-primary-300'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-700/60'
+              }`}
+            >
+              Slide
+            </a>
+            <a
               href="/privacy"
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                 pathname === '/privacy'

@@ -1,0 +1,652 @@
+<title>Please Payment</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap">
+<style>
+:root {
+  --bg:#080A10;--surf:#0F1119;--panel:#141826;--bdr:#222638;
+  --text:#DDE1F0;--soft:#9298B0;--muted:#646A85;
+  --acc:#F97316;--acc-bg:rgba(249,115,22,0.09);--acc-bd:rgba(249,115,22,0.28);
+  --red-bg:rgba(239,68,68,0.07);--red-bd:rgba(239,68,68,0.22);
+  --grn-bg:rgba(16,185,129,0.07);--grn-bd:rgba(16,185,129,0.22);
+  --grn:#34D399;--red:#F87171;
+  --fd:'Plus Jakarta Sans',system-ui,sans-serif;--fb:'Inter',system-ui,sans-serif;--fm:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);-webkit-font-smoothing:antialiased;}
+
+.deck{width:100vw;height:100dvh;position:relative;}
+/* All slides always flex so SVG/canvas render correctly */
+.slide{
+  position:absolute;inset:0;
+  padding:5rem 7vw 4rem;
+  display:flex;flex-direction:column;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .22s ease;overflow:hidden;
+}
+.slide.active{opacity:1;pointer-events:auto;z-index:1;}
+
+/* header */
+.sh{position:absolute;top:1.55rem;left:7vw;right:7vw;display:flex;align-items:center;justify-content:space-between;}
+.sh-brand{display:flex;align-items:center;gap:.55rem;}
+.sh-mark{width:24px;height:24px;background:var(--acc);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:800;font-size:.8rem;color:#fff;}
+.sh-name{font-family:var(--fd);font-weight:700;font-size:.78rem;color:var(--muted);}
+.sh-tag{font-size:.66rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+
+/* type */
+.eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);margin-bottom:.85rem;}
+.headline{font-family:var(--fd);font-weight:800;font-size:clamp(1.9rem,3.8vw,3.4rem);line-height:1.1;text-wrap:balance;margin-bottom:1rem;}
+.headline em{color:var(--acc);font-style:normal;}
+.subline{font-size:clamp(.88rem,1.3vw,1.05rem);line-height:1.72;color:var(--soft);max-width:58ch;margin-bottom:1.4rem;}
+
+/* cover */
+.c-logo{display:flex;align-items:center;gap:.85rem;margin-bottom:2.8rem;}
+.c-mark{width:48px;height:48px;background:var(--acc);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:800;font-size:1.45rem;color:#fff;}
+.c-h{font-family:var(--fd);font-weight:800;font-size:clamp(2.4rem,5vw,4.4rem);line-height:1.06;margin-bottom:1.5rem;max-width:18ch;}
+.c-h .o{color:var(--acc);}
+.c-sub{font-size:clamp(.95rem,1.5vw,1.1rem);color:var(--soft);line-height:1.7;max-width:52ch;margin-bottom:2rem;}
+.pills{display:flex;gap:.6rem;flex-wrap:wrap;}
+.pill{font-size:.74rem;font-weight:500;padding:.36rem .88rem;border-radius:100px;border:1px solid var(--bdr);color:var(--muted);background:var(--surf);}
+.pill.hot{border-color:var(--acc-bd);color:var(--acc);background:var(--acc-bg);}
+
+/* generic card */
+.card{background:var(--panel);border:1px solid var(--bdr);border-radius:14px;padding:1.4rem;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:.75rem;}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin-top:.75rem;}
+
+/* problem */
+.prob-n{font-family:var(--fd);font-weight:800;font-size:1.9rem;color:var(--bdr);margin-bottom:.75rem;}
+.prob-t{font-family:var(--fd);font-weight:700;font-size:.97rem;color:var(--text);margin-bottom:.5rem;}
+.prob-b{font-size:.84rem;color:var(--muted);line-height:1.68;}
+.prob-b ul{padding-left:1.1em;}.prob-b li{margin-bottom:.2em;}
+
+/* cost comparison */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-top:.85rem;}
+.cmp-bad{background:var(--red-bg);border:1px solid var(--red-bd);border-radius:14px;padding:1.3rem 1.4rem;}
+.cmp-good{background:var(--grn-bg);border:1px solid var(--grn-bd);border-radius:14px;padding:1.3rem 1.4rem;}
+.cmp-label{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.9rem;}
+.cmp-label.bad{color:var(--red);}.cmp-label.good{color:var(--grn);}
+.tree{font-family:var(--fm);font-size:.79rem;color:var(--muted);line-height:1.9;}
+.tree .hl{color:var(--text);}.tree .acc-hl{color:var(--acc);font-weight:600;}
+.cmp-tag{margin-top:.9rem;padding-top:.85rem;border-top:1px solid var(--bdr);font-size:.83rem;font-weight:600;color:var(--grn);}
+/* cost rows */
+.cost-list{display:flex;flex-direction:column;gap:.75rem;margin:.4rem 0 0;}
+.cost-row{display:flex;gap:.7rem;align-items:flex-start;}
+.cost-ico{flex-shrink:0;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;margin-top:.1rem;}
+.cost-ico.x{background:rgba(248,113,113,0.14);color:var(--red);}
+.cost-ico.chk{background:rgba(52,211,153,0.12);color:var(--grn);}
+.cost-t{font-weight:600;font-size:.88rem;color:var(--text);margin-bottom:.22rem;}
+.cost-d{font-size:.8rem;color:var(--muted);line-height:1.65;}
+/* cap cards */
+.cap-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.15rem;margin-top:.85rem;}
+.cap-card{background:var(--panel);border:1px solid var(--bdr);border-left:3px solid var(--acc);border-radius:0 12px 12px 0;padding:1.2rem 1.35rem;}
+.cap-head{display:flex;align-items:center;gap:.65rem;margin-bottom:.65rem;}
+.cap-ico{width:34px;height:34px;background:var(--acc-bg);border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem;}
+.cap-title{font-weight:700;font-size:.97rem;color:var(--text);}
+.cap-desc{font-size:.83rem;color:var(--soft);line-height:1.74;}
+
+/* pm */
+.pm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:.75rem;}
+.pm-card{background:var(--panel);border:1px solid var(--bdr);border-radius:12px;padding:1.15rem 1.3rem;}
+.pm-ico{font-size:1.5rem;margin-bottom:.6rem;display:block;}
+.pm-title{font-weight:600;font-size:.9rem;color:var(--text);margin-bottom:.28rem;}
+.pm-desc{font-size:.79rem;color:var(--muted);line-height:1.58;}
+.pm-tag{display:inline-block;margin-top:.55rem;font-size:.68rem;font-weight:600;padding:.2rem .6rem;border-radius:100px;}
+.pm-tag.live{background:var(--grn-bg);color:var(--grn);border:1px solid var(--grn-bd);}
+.pm-tag.soon{background:var(--bdr);color:var(--muted);}
+
+/* dev */
+.dev-layout{display:grid;grid-template-columns:1.1fr 1fr;gap:2.2rem;align-items:start;margin-top:.75rem;}
+.dev-flow{display:flex;flex-direction:column;gap:.38rem;}
+.dev-step{display:flex;align-items:center;gap:.75rem;}
+.dev-n{width:27px;height:27px;border-radius:50%;background:var(--acc-bg);border:1.5px solid var(--acc);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:var(--acc);font-family:var(--fd);flex-shrink:0;}
+.dev-l{font-size:.85rem;font-weight:500;color:var(--text);}
+.dev-dv{width:27px;text-align:center;color:var(--muted);font-size:.78rem;}
+.code-wrap{display:flex;flex-direction:column;gap:.85rem;}
+.code-lbl{font-size:.67rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.code-b{background:var(--panel);border:1px solid var(--bdr);border-radius:12px;padding:1rem 1.2rem;font-family:var(--fm);font-size:.77rem;line-height:1.75;}
+.ck{color:#93C5FD;}.cv{color:#86EFAC;}.cn{color:#FCA5A5;}.cp{color:var(--muted);}
+
+/* dash */
+.dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:.75rem;}
+.dash-card{background:var(--panel);border:1px solid var(--bdr);border-radius:12px;padding:1.25rem 1.3rem;}
+.dash-d{width:6px;height:6px;border-radius:50%;background:var(--acc);display:inline-block;margin-right:.42rem;}
+.dash-t{font-weight:600;font-size:.9rem;color:var(--text);margin-bottom:.45rem;}
+.dash-b{font-size:.8rem;color:var(--muted);line-height:1.62;}
+
+/* security */
+.sec3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:.75rem;}
+.sec3-col-title{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.7rem;}
+.sec3-col-title.sec{color:var(--red);}.sec3-col-title.rel{color:var(--acc);}.sec3-col-title.ops{color:var(--grn);}
+.sec3-item{display:flex;align-items:flex-start;gap:.45rem;margin-bottom:.5rem;}
+.sec3-dot{width:5px;height:5px;border-radius:50%;margin-top:.4rem;flex-shrink:0;}
+.sec3-dot.s{background:var(--red);}.sec3-dot.r{background:var(--acc);}.sec3-dot.o{background:var(--grn);}
+.sec3-text{font-size:.84rem;color:var(--text);}.sec3-sub{font-size:.76rem;color:var(--muted);}
+
+/* use cases */
+.uc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:.75rem;}
+.uc-card{background:var(--panel);border:1px solid var(--bdr);border-radius:12px;padding:1.25rem 1.3rem;}
+.uc-ico{font-size:1.4rem;margin-bottom:.55rem;display:block;}
+.uc-t{font-family:var(--fd);font-weight:700;font-size:.93rem;color:var(--text);margin-bottom:.38rem;}
+.uc-b{font-size:.8rem;color:var(--muted);line-height:1.62;}
+.uc-eg{margin-top:.6rem;padding-top:.6rem;border-top:1px solid var(--bdr);font-size:.73rem;color:var(--acc);font-style:italic;}
+
+/* why comparison */
+.why-layout{display:grid;grid-template-columns:1fr auto 1fr;gap:1.4rem;align-items:start;margin-top:.75rem;}
+.why-vs{display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:800;font-size:1rem;color:var(--muted);padding-top:2rem;}
+.quote-block{background:var(--acc-bg);border-left:3px solid var(--acc);border-radius:0 10px 10px 0;padding:.8rem 1rem;margin-top:1rem;font-size:.9rem;font-style:italic;font-weight:600;color:var(--acc);}
+
+/* getting started */
+.gs-layout{display:grid;grid-template-columns:1fr 1fr;gap:2.2rem;align-items:start;margin-top:.75rem;}
+.gs-steps{display:flex;flex-direction:column;gap:1.1rem;}
+.gs-step{display:flex;gap:.9rem;align-items:flex-start;}
+.gs-num{width:30px;height:30px;border-radius:50%;background:var(--acc-bg);border:1.5px solid var(--acc);display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:700;color:var(--acc);font-family:var(--fd);flex-shrink:0;}
+.gs-title{font-weight:600;font-size:.92rem;color:var(--text);margin-bottom:.28rem;}
+.gs-desc{font-size:.8rem;color:var(--muted);line-height:1.6;}
+
+/* closing */
+.cl-h{font-family:var(--fd);font-weight:800;font-size:clamp(1.85rem,4vw,3.4rem);line-height:1.1;margin-bottom:1.8rem;}
+.cl-h em{color:var(--acc);font-style:normal;}
+.cl-list{list-style:none;display:flex;flex-direction:column;gap:.75rem;margin-bottom:2.2rem;}
+.cl-list li{font-size:.97rem;color:var(--muted);padding-left:1.3rem;position:relative;}
+.cl-list li::before{content:'→';position:absolute;left:0;color:var(--acc);font-weight:700;}
+.cl-url{font-family:var(--fd);font-weight:700;font-size:1.35rem;color:var(--acc);}
+.cl-tagline{font-size:.83rem;color:var(--muted);margin-top:.32rem;}
+
+/* controls */
+.controls{position:fixed;bottom:0;left:0;right:0;padding:0 7vw 1.35rem;display:flex;align-items:center;gap:1.4rem;z-index:100;}
+.prog{flex:1;height:2px;background:var(--bdr);border-radius:2px;overflow:hidden;}
+.prog-f{height:100%;background:var(--acc);border-radius:2px;transition:width .28s ease;}
+.cnt{font-size:.72rem;font-family:var(--fm);color:var(--muted);white-space:nowrap;flex-shrink:0;}
+.navs{display:flex;gap:.42rem;flex-shrink:0;}
+.nb{width:32px;height:32px;border:1px solid var(--bdr);background:var(--surf);color:var(--text);border-radius:8px;cursor:pointer;font-size:.82rem;display:flex;align-items:center;justify-content:center;transition:border-color .15s,color .15s;}
+.nb:hover:not(:disabled){border-color:var(--acc);color:var(--acc);}
+.nb:disabled{opacity:.3;cursor:not-allowed;}
+@media (prefers-reduced-motion:reduce){.slide,.prog-f{transition:none;}}
+:root:has(body.pdf-mode) .controls{display:none!important;}
+@media print {
+  html,body{width:10in;height:auto;overflow:visible;background:#080A10;}
+  .deck{position:static;width:10in;height:auto;overflow:visible;}
+  .slide{
+    position:relative!important;display:flex!important;opacity:1!important;
+    pointer-events:none!important;width:10in!important;height:5.625in!important;
+    overflow:hidden!important;page-break-after:always!important;
+    box-sizing:border-box!important;z-index:auto!important;
+  }
+  .slide:last-of-type{page-break-after:avoid!important;}
+  .controls{display:none!important;}
+}
+@page{size:10in 5.625in;margin:0;}
+</style>
+
+<div class="deck">
+
+<!-- ═══ 01 COVER ═══ -->
+<section class="slide active" data-i="0">
+  <div class="c-logo"><div class="c-mark">P</div><span style="font-family:var(--fd);font-weight:700;font-size:1.15rem">please payment</span></div>
+  <h1 class="c-h">Build your business,<br>not your <span class="o">payment<br>infrastructure.</span></h1>
+  <p class="c-sub">One integration. Multiple payment methods. Built for your business.</p>
+  <div class="pills">
+    <span class="pill hot">Non-Custodial</span>
+    <span class="pill">Self-Hosted</span>
+    <span class="pill">Personal Bank Account</span>
+    <span class="pill">Open API</span>
+  </div>
+</section>
+
+<!-- ═══ 02 WHY PAYMENT IS HARD ═══ -->
+<section class="slide" data-i="1">
+  <div class="sh"><div class="sh-brand"><div class="sh-mark">P</div><span class="sh-name">please payment</span></div><span class="sh-tag">The Problem</span></div>
+  <div class="eyebrow">Why Payment is Hard</div>
+  <h2 class="headline">Accepting payment should be simple.<br><em>Building the infrastructure isn't.</em></h2>
+  <div class="g3">
+    <div class="card"><div class="prob-n">01</div><div class="prob-t">Multiple Payment Methods</div><div class="prob-b"><ul><li>QR Payment / PromptPay</li><li>Wallet (TrueMoney, LINE Pay)</li><li>Bank Transfer</li><li>Payment Link</li><li>Crypto</li></ul></div></div>
+    <div class="card"><div class="prob-n">02</div><div class="prob-t">Complex Operations</div><div class="prob-b"><ul><li>Payment Status tracking</li><li>Callback &amp; Webhook</li><li>Reconciliation &amp; Refund</li><li>Expiration &amp; Retry</li><li>Transaction History</li></ul></div></div>
+    <div class="card"><div class="prob-n">03</div><div class="prob-t">Integration Complexity</div><div class="prob-b"><ul><li>Security &amp; Authentication</li><li>Multiple provider APIs</li><li>Backend system integration</li><li>Compliance &amp; Audit</li><li>Monitoring &amp; Alerts</li></ul></div></div>
+  </div>
+</section>
+
+<!-- ═══ 03 COST OF BUILDING YOURSELF ═══ -->
+<section class="slide" data-i="2">
+  <div class="sh"><div class="sh-brand"><div class="sh-mark">P</div><span class="sh-name">please payment</span></div><span class="sh-tag">The Cost</span></div>
+  <div class="eyebrow">The Cost of Building It Yourself</div>
+  <h2 class="headline" style="font-size:clamp(1.7rem,3vw,2.6rem)">This is what you're building<br>instead of your business.</h2>
+  <div class="cmp">
+    <div class="cmp-bad">
+      <div class="cmp-label bad">Building it yourself</div>
+      <div class="cost-list">
+        <div class="cost-row">
+          <div class="cost-ico x">✗</div>
+          <div>
+            <div class="cost-t">Integrate every provider separately</div>
+            <div class="cost-d">Each bank (KTB, SCB, GSB), wallet (TrueMoney), and crypto network has its own API, authentication scheme, and response format — each must be integrated one by one.</div>
+          </div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-ico x">✗</div>
+          <div>
+            <div class="cost-t">Build all infrastructure from scratch</div>
+            <div class="cost-d">Webhook handler, transaction database, reconciliation engine, monitoring, and security must all be designed, built, and maintained entirely by your team.</div>
+          </div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-ico x">✗</div>
+          <div>
+            <div class="cost-t">Rebuild every time you add a method</div>
+            <div class="cost-d">Want to add PromptPay later? That's weeks of additional integration work — and your system needs regression testing each time.</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:.9rem;font-size:.79rem;color:var(--red);font-weight:500">6–12 months of development. Your team maintains it forever.</div>
+    </div>
+    <div class="cmp-good">
+      <div class="cmp-label good">With please payment</div>
+      <div class="cost-list">
+        <div class="cost-row">
+          <div class="cost-ico chk">✓</div>
+          <div>
+            <div class="cost-t">One API for all payment methods</div>
+            <div class="cost-d">A single REST API connects you to PromptPay, Bank Transfer, Wallet, Payment Link, and Crypto. No need to deal with individual providers.</div>
+          </div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-ico chk">✓</div>
+          <div>
+            <div class="cost-t">Infrastructure already built for you</div>
+            <div class="cost-d">Webhook delivery, transaction tracking, reconciliation, and monitoring are all included. Your team focuses on your product — not payment plumbing.</div>
+          </div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-ico chk">✓</div>
+          <div>
+            <div class="cost-t">Add methods without code changes</div>
+            <div class="cost-d">When a new payment method is supported, you get it automatically. No additional development, no regression testing, no re-integration.</div>
+          </div>
+        </div>
+      </div>
+      <div class="cmp-tag">Ship in days. Scale without rebuilding.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 04 INTRODUCING ═══ -->
+<section class="slide" data-i="3">
+  <div class="sh"><div class="sh-brand"><div class="sh-mark">P</div><span class="sh-name">please payment</span></div><span class="sh-tag">Introducing</span></div>
+  <div style="display:inline-flex;align-items:center;gap:.5rem;background:var(--acc-bg);border:1px solid var(--acc-bd);border-radius:100px;padding:.4rem 1rem;margin-bottom:1.1rem;">
+    <div style="width:6px;height:6px;border-radius:50%;background:var(--acc)"></div>
+    <span style="font-size:.76rem;font-weight:600;color:var(--acc);letter-spacing:.07em">Payment Platform &amp; Gateway</span>
+  </div>
+  <h2 class="headline"><em>please payment</em></h2>
+  <p class="subline">Accept payments without building payment infrastructure from scratch.<br>One platform. Multiple payment methods. Built for businesses of any size.</p>
+  <div class="g3" style="margin-top:.5rem">
+    <div class="card" style="border-top:2px solid var(--acc)">
+      <div style="font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.55rem">What is it?</div>
+      <div style="font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.38rem">Payment Infrastructure</div>
+      <div style="font-size:.81rem;color:var(--muted);line-height:1.62">A complete payment gateway — QR, webhook, dashboard, reconciliation, all in one.</div>
+    </div>
+    <div class="card" style="border-top:2px solid var(--acc)">
+      <div style="font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.55rem">Who is it for?</div>
+      <div style="font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.38rem">Any Business That Receives Money</div>
+      <div style="font-size:.81rem;color:var(--muted);line-height:1.62">Merchant · E-Commerce · SaaS · Marketplace · Platform · Developer</div>
+    </div>
+    <div class="card" style="border-top:2px solid var(--acc)">
+      <div style="font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.55rem">What does it solve?</div>
+      <div style="font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.38rem">Payment Complexity</div>
+      <div style="font-size:.81rem;color:var(--muted);line-height:1.62">Handle all payment methods, status tracking, webhooks, and reconciliation via a single API.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 05 HOW IT WORKS — SVG diagram ═══ -->
+<section class="slide" data-i="4">
+  <div class="sh"><div class="sh-brand"><div class="sh-mark">P</div><span class="sh-name">please payment</span></div><span class="sh-tag">How It Works</span></div>
+  <div class="eyebrow">How please payment Works</div>
+  <h2 class="headline" style="font-size:clamp(1.6rem,2.8vw,2.4rem)">please payment sits between your business<br>and all payment providers.</h2>
+
+  <svg viewBox="0 0 860 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:46vh;margin-top:.5rem" role="img" aria-label="Architecture diagram">
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,1 L10,5 L0,9 Z" fill="#F97316" opacity=".75"/>
+      </marker>
+      <marker id="ahg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,1 L10,5 L0,9 Z" fill="#646A85"/>
+      </marker>
+      <marker id="ahgrn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,1 L10,5 L0,9 Z" fill="#34D399" opacity=".7"/>
+      </marker>
+    </defs>
+
+    <!-- Customer -->
+    <rect x="8" y="80" width="110" height="52" rx="11" fill="#141826" stroke="#222638" stroke-width="1.5"/>
+    <text x="63" y="102" text-anchor="middle" fill="#9298B0" font-size="11" font-family="Inter,sans-serif">Customer</text>
+    <text x="63" y="120" text-anchor="middle" fill="#646A85" font-size="10" font-family="Inter,sans-serif">scans QR / pays</text>
+
+    <line x1="118" y1="106" x2="144" y2="106" stroke="#F97316" stroke-width="1.5" stroke-opacity=".65" marker-end="url(#ah)"/>
+
+    <!-- Merchant App -->
+    <rect x="146" y="80" width="128" height="52" rx="11" fill="#141826" stroke="#222638" stroke-width="1.5"/>
+    <text x="210" y="102" text-anchor="middle" fill="#DDE1F0" font-size="11" font-weight="600" font-family="Inter,sans-serif">Merchant App</text>
+    <text x="210" y="120" text-anchor="middle" fill="#646A85" font-size="10" font-family="Inter,sans-serif">Website / Mobile</text>
+
+    <line x1="274" y1="106" x2="300" y2="106" stroke="#F97316" stroke-width="1.5" stroke-opacity=".65" marker-end="url(#ah)"/>
+
+    <!-- please payment HUB -->
+    <rect x="302" y="60" width="198" height="92" rx="14" fill="#1A0F02" stroke="#F97316" stroke-width="2"/>
+    <text x="401" y="101" text-anchor="middle" fill="#F97316" font-size="15" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">please payment</text>
+    <text x="401" y="120" text-anchor="middle" fill="#646A85" font-size="10" font-family="Inter,sans-serif">QR · Webhook · Dashboard · API</text>
+
+    <!-- Hub to providers (3 lines) -->
+    <line x1="500" y1="86"  x2="528" y2="64"  stroke="#646A85" stroke-width="1.5" marker-end="url(#ahg)"/>
+    <line x1="500" y1="106" x2="528" y2="106" stroke="#646A85" stroke-width="1.5" marker-end="url(#ahg)"/>
+    <line x1="500" y1="126" x2="528" y2="148" stroke="#646A85" stroke-width="1.5" marker-end="url(#ahg)"/>
+
+    <!-- Providers -->
+    <rect x="530" y="46"  width="140" height="38" rx="9" fill="#141826" stroke="#222638" stroke-width="1"/>
+    <text x="600" y="69" text-anchor="middle" fill="#9298B0" font-size="11" font-family="Inter,sans-serif">PromptPay / QR</text>
+
+    <rect x="530" y="88"  width="140" height="38" rx="9" fill="#141826" stroke="#222638" stroke-width="1"/>
+    <text x="600" y="111" text-anchor="middle" fill="#9298B0" font-size="11" font-family="Inter,sans-serif">Wallet (TrueMoney…)</text>
+
+    <rect x="530" y="130" width="140" height="38" rx="9" fill="#141826" stroke="#222638" stroke-width="1"/>
+    <text x="600" y="153" text-anchor="middle" fill="#9298B0" font-size="11" font-family="Inter,sans-serif">Crypto</text>
+
+    <!-- Providers merge to result -->
+    <line x1="670" y1="65"  x2="706" y2="100" stroke="#F97316" stroke-width="1.5" stroke-opacity=".5" marker-end="url(#ah)"/>
+    <line x1="670" y1="107" x2="706" y2="107" stroke="#F97316" stroke-width="1.5" stroke-opacity=".5" marker-end="url(#ah)"/>
+    <line x1="670" y1="149" x2="706" y2="114" stroke="#F97316" stroke-width="1.5" stroke-opacity=".5" marker-end="url(#ah)"/>
+
+    <!-- Your System (via Webhook) -->
+    <rect x="708" y="80" width="144" height="52" rx="11" fill="#071A12" stroke="#34D399" stroke-width="1.5"/>
+    <text x="780" y="101" text-anchor="middle" fill="#34D399" font-size="11" font-weight="600" font-family="Inter,sans-serif">Your System</text>
+    <text x="780" y="119" text-anchor="middle" fill="#34D399" font-size="10" font-family="Inter,sans-serif" opacity=".75">via Webhook / API</text>
+  </svg>
+</section>
+
+<!-- ═══ 06 ONE INTEGRATION — SVG diagram ═══ -->
+<section class="slide" data-i="5">
+  <div class="sh"><div class="sh-brand"><div class="sh-mark">P</div><span class="sh-name">please payment</span></div><span class="sh-tag">Integration</span></div>
+  <div class="eyebrow">One Integration, Many Payment Methods</div>
+  <h2 class="headline" style="font-size:clamp(1.5rem,2.4vw,2.1rem)">Integrate once. <em>Add payment methods without rebuilding.</em></h2>
+
+  <svg viewBox="0 0 860 195" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:46vh;margin-top:.5rem" role="img" aria-label="Integration diagram">
+    <defs>
+      <marker id="bh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,1 L10,5 L0,9 Z" fill="#F97316" opacity=".75"/>
+      </marker>
+      <marker id="bhg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,1 L10,5 L0,9 Z" fill="#646A85"/>
+      </marker>
+      <marker id="bhgrn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,1 L10,5 L0,9 Z" fill="#34D399" opacity=".7"/>
+      </marker>
+    </defs>
+
+    <!-- Merchant -->
+    <rect x="8" y="72" width="138" height="60" rx="12" fill="#141826" stroke="#222638" stroke-width="1.5"/>
+    <text x="77" y="97" text-anchor="middle" fill="#DDE1F0" font-size="12" font-weight="600" font-family="Inter,sans-serif">Merchant</text>
+    <text x="77" y="115" text-anchor="middle" fill="#646A85" font-size="10" font-family="Inter,sans-serif">1 integration only</text>
+
+    <line x1="146" y1="102" x2="172" y2="102" stroke="#F97316" stroke-width="1.5" stroke-opacity=".65" marker-end="url(#bh)"/>
+    <text x="159" y="96" text-anchor="middle" fill="#F97316" font-size="9" font-family="Inter,sans-serif"></text>
+
+    <!-- please payment HUB -->
+    <rect x="174" y="56" width="200" height="94" rx="14" fill="#1A0F02" stroke="#F97316" stroke-width="2"/>
+    <text x="274" y="98" text-anchor="middle" fill="#F97316" font-size="15" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">please payment</text>
+    <text x="274" y="117" text-anchor="middle" fill="#646A85" font-size="10" font-family="Inter,sans-serif">QR · Webhook · Dashboard · API</text>
+
+    <!-- Hub to payment methods (4 arrows) -->
+    <line x1="374" y1="74"  x2="404" y2="47"  stroke="#646A85" stroke-width="1.5" marker-end="url(#bhg)"/>
+    <line x1="374" y1="90"  x2="404" y2="87"  stroke="#646A85" stroke-width="1.5" marker-end="url(#bhg)"/>
+    <line x1="374" y1="114" x2="404" y2="127" stroke="#646A85" stroke-width="1.5" marker-end="url(#bhg)"/>
+    <line x1="374" y1="130" x2="404" y2="167" stroke="#646A85" stroke-width="1.5" marker-end="url(#bhg)"/>
+
+    <!-- Payment Methods -->
+    <rect x="406" y="30"  width="174" height="34" rx="8" fill="#141826" stroke="#222638" stroke-width="1"/>
+    <text x="493" y="52" text-anchor="middle" fill="#9298B0" font-size="11" font-family="Inter,sans-serif">PromptPay / QR</text>
+
+    <rect x="406" y="70"  width="174" height="34" rx="8" fill="#141826" stroke="#222638" stroke-width="1"/>
+    <text x="493" y="92" text-anchor="middle" fill="#9298B0" font-size="11" font-family="Inter,sans-serif">Wallet (TrueMoney…)</text>
+
+    <rect x="406" y="110" width="174" height="34" rx="8" fill="#141826" stroke="#222638" stroke-width="1"/>
+    <text x="493" y="132" text-anchor="middle" fill="#9298B0" font-size="11" font-family="Inter,sans-serif">Crypto</text>
+
+    <rect x="406" y="150" width="174" height="34" rx="8" fill="#141826" stroke="#222638" stroke-width="1" stroke-dasharray="5,3"/>
+    <text x="493" y="172" text-anchor="middle" fill="#646A85" font-size="11" font-family="Inter,sans-serif">+ More payment methods</text>
+
+    <!-- Payment methods merge to Your System -->
+    <line x1="580" y1="47"  x2="614" y2="94"  stroke="#F97316" stroke-width="1.5" stroke-opacity=".5" marker-end="url(#bh)"/>
+    <line x1="580" y1="87"  x2="614" y2="98"  stroke="#F97316" stroke-width="1.5" stroke-opacity=".5" marker-end="url(#bh)"/>
+    <line x1="580" y1="127" x2="614" y2="106" stroke="#F97316" stroke-width="1.5" stroke-opacity=".5" marker-end="url(#bh)"/>
+    <line x1="580" y1="167" x2="614" y2="110" stroke="#F97316" stroke-width="1.5" stroke-opacity=".5" marker-end="url(#bh)"/>
+
+    <!-- Your System -->
+    <rect x="616" y="76" width="152" height="54" rx="12" fill="#071A12" stroke="#34D399" stroke-width="1.5"/>
+    <text x="692" y="98" text-anchor="middle" fill="#34D399" font-size="11" font-weight="600" font-family="Inter,sans-serif">Your System</text>
+    <text x="692" y="116" text-anchor="middle" fill="#34D399" font-size="10" font-family="Inter,sans-serif" opacity=".75">1 webhook endpoint</text>
+
+  </svg>
+  <div style="font-size:.75rem;color:var(--muted);margin-top:.5rem;text-align:center">Add new payment methods — no code changes in Your System</div>
+</section>
+
+<!-- ═══ 07 WHAT CAN PLEASE PAYMENT DO? ═══ -->
+<section class="slide" data-i="6">
+  <div class="sh"><div class="sh-brand"><div class="sh-mark">P</div><span class="sh-name">please payment</span></div><span class="sh-tag">Capabilities</span></div>
+  <div class="eyebrow">What Can Please Payment Do?</div>
+  <h2 class="headline" style="font-size:clamp(1.6rem,2.8vw,2.4rem)">Everything you need to accept money.</h2>
+  <div class="cap-grid">
+    <div class="cap-card">
+      <div class="cap-head"><div class="cap-ico">💳</div><div class="cap-title">Accept Payments</div></div>
+      <div class="cap-desc">Your customers can pay using PromptPay QR, Bank Transfer, TrueMoney Wallet, Payment Link, Dynamic QR, or Crypto — all through one unified experience. You don't need to build or maintain each payment method separately.</div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-head"><div class="cap-ico">🔄</div><div class="cap-title">Manage Transactions</div></div>
+      <div class="cap-desc">Every payment is tracked in real time — from pending to confirmed to settled. You can view history, process refunds, handle expired payments, and retry failed deliveries, all from one dashboard or via API.</div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-head"><div class="cap-ico">🔌</div><div class="cap-title">Connect Your System</div></div>
+      <div class="cap-desc">A clean REST API and webhook system lets your backend know the moment a payment succeeds. Built-in idempotency, signature verification, and automatic retries mean no missed events and no double charges.</div>
+    </div>
+    <div class="cap-card">
+      <div class="cap-head"><div class="cap-ico">📊</div><div class="cap-title">Operate Your Business</div></div>
+      <div class="cap-desc">The merchant dashboard gives your team full visibility — transaction reports, daily reconciliation, settlement tracking, audit trail, and monitoring alerts — so operations run smoothly without custom tooling.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 08 WHY PLEASE PAYMENT ═══ -->
+<section class="slide" data-i="7">
+  <div class="sh"><div class="sh-brand"><div class="sh-mark">P</div><span class="sh-name">please payment</span></div><span class="sh-tag">Why Please Payment</span></div>
+  <div class="eyebrow">Why Please Payment?</div>
+  <h2 class="headline" style="font-size:clamp(1.6rem,2.8vw,2.4rem)">Own your payment stack.<br><em>Keep control of your money.</em></h2>
+  <div class="cmp">
+    <div class="cmp-bad">
+      <div class="cmp-label bad">The traditional way</div>
+      <div class="cost-list">
+        <div class="cost-row">
+          <div class="cost-ico x">✗</div>
+          <div>
+            <div class="cost-t">Funds go through intermediaries</div>
+            <div class="cost-d">Most payment processors hold your money before releasing it. Settlement takes days, and you have no direct control over when or how your funds move.</div>
+          </div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-ico x">✗</div>
+          <div>
+            <div class="cost-t">Corporate bank account required</div>
+            <div class="cost-d">Traditional payment gateways require a registered company with a corporate bank account — blocking individuals, freelancers, and small operators from getting started.</div>
+          </div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-ico x">✗</div>
+          <div>
+            <div class="cost-t">Ongoing maintenance is your problem</div>
+            <div class="cost-d">Security patches, uptime monitoring, backups, and compliance all remain your team's responsibility — indefinitely, even when your payment volume stays the same.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cmp-good">
+      <div class="cmp-label good">With please payment</div>
+      <div class="cost-list">
+        <div class="cost-row">
+          <div class="cost-ico chk">✓</div>
+          <div>
+            <div class="cost-t">Money goes directly to your account</div>
+            <div class="cost-d">Non-custodial by design. Every payment lands directly in your bank account the moment it clears — no intermediary holds your funds, no waiting for settlement.</div>
+          </div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-ico chk">✓</div>
+          <div>
+            <div class="cost-t">Personal bank account is welcome</div>
+            <div class="cost-d">No corporate registration required. Any individual, freelancer, or small business can set up their own payment gateway and start accepting money today.</div>
+          </div>
+        </div>
+        <div class="cost-row">
+          <div class="cost-ico chk">✓</div>
+          <div>
+            <div class="cost-t">Self-hosted on modest hardware</div>
+            <div class="cost-d">Runs on a low-spec server or even a personal computer. No expensive cloud infrastructure, no dedicated DevOps team — just deploy and start accepting payments.</div>
+          </div>
+        </div>
+      </div>
+      <div class="cmp-tag">Your gateway. Your account. Your rules.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 09 USE CASES ═══ -->
+<section class="slide" data-i="8">
+  <div class="sh"><div class="sh-brand"><div class="sh-mark">P</div><span class="sh-name">please payment</span></div><span class="sh-tag">Use Cases</span></div>
+  <div class="eyebrow">Use Cases</div>
+  <h2 class="headline">Who uses please payment.</h2>
+  <div class="uc-grid">
+    <div class="uc-card"><span class="uc-ico">🛒</span><div class="uc-t">E-Commerce</div><div class="uc-b">Auto-confirm orders the instant payment clears. No manual checking, no delay.</div><div class="uc-eg">Payment received → order confirmed → shipping queued</div></div>
+    <div class="uc-card"><span class="uc-ico">🥤</span><div class="uc-t">Vending Machine</div><div class="uc-b">QR replaces coins. Customer scans and the machine releases the product instantly.</div><div class="uc-eg">QR scan → pay → machine dispenses</div></div>
+    <div class="uc-card"><span class="uc-ico">🖥</span><div class="uc-t">POS System</div><div class="uc-b">Any point-of-sale can trigger a QR payment request and detect payment in real time.</div><div class="uc-eg">Order placed → QR shown → paid → receipt</div></div>
+    <div class="uc-card"><span class="uc-ico">💆</span><div class="uc-t">Smart Devices / IoT</div><div class="uc-b">Electric massage chair, locker, gate — activated via webhook the moment payment lands.</div><div class="uc-eg">Pay → chair starts 30-minute session</div></div>
+    <div class="uc-card"><span class="uc-ico">📦</span><div class="uc-t">SaaS &amp; Subscriptions</div><div class="uc-b">Payment Link, Invoice, recurring billing. Activate accounts immediately on payment.</div><div class="uc-eg">Payment received → subscription activated</div></div>
+    <div class="uc-card"><span class="uc-ico">🏪</span><div class="uc-t">Marketplace</div><div class="uc-b">Receive from customer, route to merchant. Multi-tenant with full audit trail per merchant.</div><div class="uc-eg">Customer → Platform → Merchant</div></div>
+  </div>
+</section>
+
+<!-- ═══ 10 SECURITY & RELIABILITY ═══ -->
+<section class="slide" data-i="9">
+  <div class="sh"><div class="sh-brand"><div class="sh-mark">P</div><span class="sh-name">please payment</span></div><span class="sh-tag">Security &amp; Reliability</span></div>
+  <div class="eyebrow">Security &amp; Reliability</div>
+  <h2 class="headline">Built to be <em>trusted.</em></h2>
+  <div class="sec3">
+    <div>
+      <div class="sec3-col-title sec">Security</div>
+      <div class="sec3-item"><div class="sec3-dot s"></div><div><div class="sec3-text">Authentication &amp; Authorization</div><div class="sec3-sub">API key + role-based access per merchant</div></div></div>
+      <div class="sec3-item"><div class="sec3-dot s"></div><div><div class="sec3-text">Encryption in Transit</div><div class="sec3-sub">TLS on all API and webhook traffic</div></div></div>
+      <div class="sec3-item"><div class="sec3-dot s"></div><div><div class="sec3-text">Audit Trail</div><div class="sec3-sub">Every transaction recorded with full history</div></div></div>
+      <div class="sec3-item"><div class="sec3-dot s"></div><div><div class="sec3-text">Audit Log</div><div class="sec3-sub">Who did what, from which IP, at what time</div></div></div>
+      <div class="sec3-item"><div class="sec3-dot s"></div><div><div class="sec3-text">API Security</div><div class="sec3-sub">Webhook signature verification</div></div></div>
+    </div>
+    <div>
+      <div class="sec3-col-title rel">Reliability</div>
+      <div class="sec3-item"><div class="sec3-dot r"></div><div><div class="sec3-text">Monitoring</div><div class="sec3-sub">Real-time system health &amp; agent status</div></div></div>
+      <div class="sec3-item"><div class="sec3-dot r"></div><div><div class="sec3-text">Event Notifications</div><div class="sec3-sub">Alert the moment something goes wrong</div></div></div>
+      <div class="sec3-item"><div class="sec3-dot r"></div><div><div class="sec3-text">Backup to Cloud Storage</div><div class="sec3-sub">Automated backups to Google Cloud Storage</div></div></div>
+      <div class="sec3-item"><div class="sec3-dot r"></div><div><div class="sec3-text">Webhook Retry</div><div class="sec3-sub">Auto-retry on delivery failure with backoff</div></div></div>
+      <div class="sec3-item"><div class="sec3-dot r"></div><div><div class="sec3-text">Idempotency</div><div class="sec3-sub">Duplicate payment protection built in</div></div></div>
+    </div>
+    <div>
+      <div class="sec3-col-title ops">Operations</div>
+      <div class="sec3-item"><div class="sec3-dot o"></div><div><div class="sec3-text">Transaction Report</div><div class="sec3-sub">Daily/weekly/monthly — exportable to CSV</div></div></div>
+      <div class="sec3-item"><div class="sec3-dot o"></div><div><div class="sec3-text">Reconciliation</div><div class="sec3-sub">Auto-match bank statements to payments</div></div></div>
+      <div class="sec3-item"><div class="sec3-dot o"></div><div><div class="sec3-text">Settlement Tracking</div><div class="sec3-sub">Non-custodial — see exactly what landed</div></div></div>
+      <div class="sec3-item"><div class="sec3-dot o"></div><div><div class="sec3-text">Structured Logs</div><div class="sec3-sub">Searchable logs per merchant per event</div></div></div>
+      <div class="sec3-item"><div class="sec3-dot o"></div><div><div class="sec3-text">Multi-Merchant Dashboard</div><div class="sec3-sub">One admin panel for all tenants</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 11 DEVELOPER EXPERIENCE ═══ -->
+<section class="slide" data-i="10">
+  <div class="sh"><div class="sh-brand"><div class="sh-mark">P</div><span class="sh-name">please payment</span></div><span class="sh-tag">Developer Experience</span></div>
+  <div class="eyebrow">Developer Experience</div>
+  <h2 class="headline">Simple flow. <em>Powerful API.</em></h2>
+  <div class="dev-layout">
+    <div>
+      <div style="font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem">Integration Flow</div>
+      <div class="dev-flow">
+        <div class="dev-step"><div class="dev-n">1</div><div class="dev-l">Create Payment Request</div></div>
+        <div class="dev-dv">↓</div>
+        <div class="dev-step"><div class="dev-n">2</div><div class="dev-l">Get QR Code / Payment URL</div></div>
+        <div class="dev-dv">↓</div>
+        <div class="dev-step"><div class="dev-n">3</div><div class="dev-l">Customer Pays</div></div>
+        <div class="dev-dv">↓</div>
+        <div class="dev-step"><div class="dev-n">4</div><div class="dev-l">Provider Confirms</div></div>
+        <div class="dev-dv">↓</div>
+        <div class="dev-step"><div class="dev-n">5</div><div class="dev-l">Webhook Fired to Your System</div></div>
+        <div class="dev-dv">↓</div>
+        <div class="dev-step"><div class="dev-n">6</div><div class="dev-l">Verify &amp; Complete Order</div></div>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <div>
+        <div class="code-lbl">Create Pay-In Request — HTTP POST</div>
+        <div class="code-b"><span class="cp">POST</span> <span class="cv">/api/PaymentRequest/org/<span class="cn">{orgId}</span>/action/SubmitPayInRequest/<span class="cn">{merchantId}</span></span><br><br><span class="cp">{</span><br>&nbsp;&nbsp;<span class="ck">"RefId1"</span><span class="cp">:</span> <span class="cv">"ORDER-12345"</span><span class="cp">,</span><br>&nbsp;&nbsp;<span class="ck">"RequestedAmount"</span><span class="cp">:</span> <span class="cn">1000</span><span class="cp">,</span><br>&nbsp;&nbsp;<span class="ck">"Currency"</span><span class="cp">:</span> <span class="cv">"THB"</span><span class="cp">,</span><br>&nbsp;&nbsp;<span class="ck">"QrProvider"</span><span class="cp">:</span> <span class="cv">"PromptPay"</span><br><span class="cp">}</span></div>
+      </div>
+      <div>
+        <div class="code-lbl">Webhook — PaymentIn.Success</div>
+        <div class="code-b"><span class="cp">{</span><br>&nbsp;&nbsp;<span class="ck">"EVENT_TYPE"</span><span class="cp">:</span> <span class="cv">"PaymentIn.Success"</span><span class="cp">,</span><br>&nbsp;&nbsp;<span class="ck">"STATUS_CODE"</span><span class="cp">:</span> <span class="cv">"OK"</span><span class="cp">,</span><br>&nbsp;&nbsp;<span class="ck">"PMR_REF_ID1"</span><span class="cp">:</span> <span class="cv">"ORDER-12345"</span><span class="cp">,</span><br>&nbsp;&nbsp;<span class="ck">"PAYIN_REQUEST_AMOUNT"</span><span class="cp">:</span> <span class="cn">1000</span><span class="cp">,</span><br>&nbsp;&nbsp;<span class="ck">"PAYIN_GENERATED_AMOUNT"</span><span class="cp">:</span> <span class="cn">1000</span><br><span class="cp">}</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 12 CLOSING ═══ -->
+<section class="slide" data-i="11">
+  <div class="sh"><div class="sh-brand"><div class="sh-mark">P</div><span class="sh-name">please payment</span></div><span class="sh-tag">Why Now?</span></div>
+  <h2 class="cl-h">Your customers want<br>more ways to pay.<br><em>Your developers<br>shouldn't have to build<br>more infrastructure.</em></h2>
+  <div>
+    <div style="background:var(--acc-bg);border-left:3px solid var(--acc);border-radius:0 10px 10px 0;padding:.8rem 1rem;margin-bottom:1.4rem;font-size:.95rem;font-style:italic;font-weight:600;color:var(--acc)">
+      "One integration. Multiple payment methods. Built for your business."
+    </div>
+    <div class="cl-url">please-payment.com</div>
+    <div class="cl-tagline">Let's build your payment flow.</div>
+  </div>
+</section>
+
+</div><!-- /deck -->
+
+<div class="controls">
+  <div class="prog"><div class="prog-f" id="pf"></div></div>
+  <div class="cnt"><span id="cur">1</span>&thinsp;/&thinsp;<span id="tot">12</span></div>
+  <div class="navs">
+    <button class="nb" id="prev">&#8592;</button>
+    <button class="nb" id="next">&#8594;</button>
+  </div>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total  = slides.length;
+document.getElementById('tot').textContent = total;
+let cur = 0;
+function go(n) {
+  slides[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(total - 1, n));
+  slides[cur].classList.add('active');
+  document.getElementById('cur').textContent = cur + 1;
+  document.getElementById('pf').style.width = ((cur + 1) / total * 100) + '%';
+  document.getElementById('prev').disabled = cur === 0;
+  document.getElementById('next').disabled = cur === total - 1;
+}
+document.getElementById('prev').addEventListener('click', () => go(cur - 1));
+document.getElementById('next').addEventListener('click', () => go(cur + 1));
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(cur + 1); }
+  if (e.key === 'ArrowLeft')  { e.preventDefault(); go(cur - 1); }
+  if (e.key === 'Home') go(0);
+  if (e.key === 'End')  go(total - 1);
+});
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+document.addEventListener('touchend',   e => { const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) go(dx < 0 ? cur + 1 : cur - 1); }, { passive: true });
+const initSlide = Math.min(total - 1, Math.max(0, parseInt(new URLSearchParams(location.search).get('s') || '0', 10)));
+if (location.hash === '#pdf') document.body.classList.add('pdf-mode');
+go(initSlide);
+</script>
