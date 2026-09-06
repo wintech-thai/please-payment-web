@@ -50,6 +50,8 @@ export function NavBar() {
             <span className="text-slate-700">|</span>
             <a
               href="/document"
+              target="_blank"
+              rel="noopener noreferrer"
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                 pathname === '/document'
                   ? 'border border-primary-500/60 bg-primary-500/10 text-primary-300'
