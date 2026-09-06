@@ -1,7 +1,7 @@
 export type Language = 'th' | 'en'
 
 export interface Translations {
-  nav: { comingSoon: string }
+  nav: { comingSoon: string; apiDocs: string }
   hero: { badge: string; headline: string; headlineAccent: string; description: string }
   howItWorks: {
     heading: string
@@ -93,6 +93,7 @@ export const translations: Record<Language, Translations> = {
   th: {
     nav: {
       comingSoon: 'เร็ว ๆ นี้',
+      apiDocs: 'Document',
     },
     hero: {
       badge: 'Non-Custodial QR Payment Gateway',
@@ -360,6 +361,7 @@ export const translations: Record<Language, Translations> = {
   en: {
     nav: {
       comingSoon: 'Coming soon',
+      apiDocs: 'Document',
     },
     hero: {
       badge: 'Non-Custodial QR Payment Gateway',
