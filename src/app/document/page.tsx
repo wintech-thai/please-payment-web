@@ -1,15 +1,9 @@
-// force rebuild/redeploy to verify prod rollout
 export const dynamic = 'force-dynamic'
 
-// NEXT_PUBLIC_API_URL is already set correctly per environment (api-dev.* in
-// dev, api.* in prod) — deriving from it means this self-corrects on deploy
-// instead of silently defaulting to dev if ADMIN_DOCS_URL is never set.
-function deriveAdminDocsUrl(): string {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://api-dev.please-payment.com'
-  return apiUrl.replace('https://api', 'https://admin')
-}
-
-const ADMIN_DOCS_URL = (process.env.ADMIN_DOCS_URL || deriveAdminDocsUrl()).replace(/\/$/, '')
+// NEXT_PUBLIC_API_URL is baked in as "/api/proxy" at build time (not a real
+// domain), so it can't be used to derive this — ADMIN_DOCS_URL must be set
+// explicitly per environment.
+const ADMIN_DOCS_URL = (process.env.ADMIN_DOCS_URL || 'https://admin-dev.please-payment.com').replace(/\/$/, '')
 
 export default function DocumentPage() {
   return (
