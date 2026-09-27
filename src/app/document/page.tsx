@@ -1,3 +1,4 @@
+// force rebuild/redeploy to verify prod rollout
 export const dynamic = 'force-dynamic'
 
 // NEXT_PUBLIC_API_URL is already set correctly per environment (api-dev.* in
