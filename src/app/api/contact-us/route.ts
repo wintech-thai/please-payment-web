@@ -61,6 +61,11 @@ export async function POST(req: NextRequest) {
       port: SMTP_PORT,
       secure: false, // STARTTLS on port 587
       auth: { user: SMTP_USER, pass: SMTP_PASSWORD },
+      // Without this, nodemailer EHLOs with the container's os.hostname()
+      // (a dot-less pod name) and Google's SMTP relay rejects it at EHLO
+      // with a 421 — confirmed by comparing against onix-v2-jobs' working
+      // Net::SMTP call, which explicitly EHLOs as "dev-hubs.com".
+      name: 'dev-hubs.com',
     })
 
     const html = `
