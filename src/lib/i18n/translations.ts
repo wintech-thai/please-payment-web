@@ -87,6 +87,28 @@ export interface Translations {
       contact?: { company: string; address: string; email: string; phone: string }
     }[]
   }
+  contactUs: {
+    title: string
+    subtitle: string
+    form: {
+      nameLabel: string
+      namePlaceholder: string
+      phoneLabel: string
+      phonePlaceholder: string
+      emailLabel: string
+      emailPlaceholder: string
+      topicLabel: string
+      topicPlaceholder: string
+      topics: string[]
+      messageLabel: string
+      messagePlaceholder: string
+      submit: string
+      submitting: string
+      success: string
+      error: string
+      errorVerification: string
+    }
+  }
 }
 
 export const translations: Record<Language, Translations> = {
@@ -357,6 +379,28 @@ export const translations: Record<Language, Translations> = {
         },
       ],
     },
+    contactUs: {
+      title: 'ติดต่อเรา',
+      subtitle: 'มีคำถามหรือต้องการความช่วยเหลือ? ส่งข้อความถึงเราได้เลย ทีมงานจะติดต่อกลับโดยเร็วที่สุด',
+      form: {
+        nameLabel: 'ชื่อ-นามสกุล',
+        namePlaceholder: 'ชื่อ-นามสกุล',
+        phoneLabel: 'เบอร์โทร',
+        phonePlaceholder: 'เบอร์โทรศัพท์',
+        emailLabel: 'Email',
+        emailPlaceholder: 'you@example.com',
+        topicLabel: 'หัวข้อที่ต้องการติดต่อ',
+        topicPlaceholder: '- เลือกหัวข้อที่ต้องการติดต่อ -',
+        topics: ['สอบถามทั่วไป', 'สนใจใช้บริการ', 'ปัญหาการใช้งาน', 'ความร่วมมือทางธุรกิจ', 'อื่น ๆ'],
+        messageLabel: 'ข้อความ',
+        messagePlaceholder: 'รายละเอียดที่ต้องการติดต่อ',
+        submit: 'ส่งข้อความ',
+        submitting: 'กำลังส่ง...',
+        success: 'ส่งข้อความเรียบร้อยแล้ว ทีมงานจะติดต่อกลับโดยเร็วที่สุด',
+        error: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง',
+        errorVerification: 'ยืนยันตัวตนไม่สำเร็จ กรุณาลองใหม่อีกครั้ง',
+      },
+    },
   },
   en: {
     nav: {
@@ -624,6 +668,28 @@ export const translations: Record<Language, Translations> = {
           contact: { company: 'Dev Hub Co., Ltd.', address: '55 Sutthisan Winitchai Road, Din Daeng, Bangkok 10400, Thailand', email: 'contact@dev-hubs.com', phone: '66(0) 94-249-4880' },
         },
       ],
+    },
+    contactUs: {
+      title: 'Contact Us',
+      subtitle: "Have a question or need help? Send us a message and we'll get back to you as soon as possible.",
+      form: {
+        nameLabel: 'Name - Surname',
+        namePlaceholder: 'Name - Surname',
+        phoneLabel: 'Phone number',
+        phonePlaceholder: 'Phone number',
+        emailLabel: 'Email',
+        emailPlaceholder: 'you@example.com',
+        topicLabel: 'Topic',
+        topicPlaceholder: '- Select the topic you wish to contact us about -',
+        topics: ['General inquiry', 'Interested in our service', 'Technical issue', 'Business partnership', 'Other'],
+        messageLabel: 'Message',
+        messagePlaceholder: 'Tell us how we can help',
+        submit: 'Submit Form',
+        submitting: 'Sending...',
+        success: "Your message has been sent. We'll get back to you as soon as possible.",
+        error: 'Something went wrong. Please try again.',
+        errorVerification: 'Verification failed. Please try again.',
+      },
     },
   },
 }
