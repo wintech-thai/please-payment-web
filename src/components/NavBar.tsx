@@ -49,6 +49,16 @@ export function NavBar() {
           <div className="flex items-center gap-3">
             <span className="text-slate-700">|</span>
             <a
+              href="/contact-us"
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                pathname === '/contact-us'
+                  ? 'border border-primary-500/60 bg-primary-500/10 text-primary-300'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-700/60'
+              }`}
+            >
+              Contact Us
+            </a>
+            <a
               href="/document"
               target="_blank"
               rel="noopener noreferrer"
