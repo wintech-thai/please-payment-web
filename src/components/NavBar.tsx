@@ -22,7 +22,7 @@ export function NavBar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700/50">
-      <div className="max-w-6xl mx-auto px-6 h-20 flex items-center">
+      <div className="max-w-[1440px] mx-auto px-8 h-20 flex items-center">
         <motion.button
           whileHover={{ scale: 1.05 }}
           onClick={handleLogoClick}
@@ -34,8 +34,8 @@ export function NavBar() {
           </span>
         </motion.button>
 
-        <div className="hidden md:flex items-center justify-between flex-1 ml-8">
-          <div className="flex items-center gap-0.5">
+        <div className="hidden md:flex items-center justify-between flex-1 ml-16">
+          <div className="flex items-center gap-2">
             {t.footer.links.map((link, i) => (
               <a
                 key={i}
@@ -46,7 +46,7 @@ export function NavBar() {
               </a>
             ))}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <span className="text-slate-700">|</span>
             <a
               href="/contact-us"
