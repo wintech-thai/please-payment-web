@@ -1,7 +1,7 @@
 export type Language = 'th' | 'en'
 
 export interface Translations {
-  nav: { comingSoon: string; apiDocs: string }
+  nav: { comingSoon: string; apiDocs: string; resources: string; document: string; slide: string; signUp: string; login: string; contactUs: string; privacy: string }
   hero: { badge: string; headline: string; headlineAccent: string; description: string }
   howItWorks: {
     heading: string
@@ -109,6 +109,27 @@ export interface Translations {
       errorVerification: string
     }
   }
+  signup: {
+    title: string
+    subtitle: string
+    form: {
+      emailLabel: string
+      emailPlaceholder: string
+      firstNameLabel: string
+      firstNamePlaceholder: string
+      lastNameLabel: string
+      lastNamePlaceholder: string
+      phoneLabel: string
+      phonePlaceholder: string
+      adminDomainLabel: string
+      adminDomainHint: string
+      submit: string
+      submitting: string
+      success: string
+      error: string
+      errorVerification: string
+    }
+  }
 }
 
 export const translations: Record<Language, Translations> = {
@@ -116,6 +137,13 @@ export const translations: Record<Language, Translations> = {
     nav: {
       comingSoon: 'เร็ว ๆ นี้',
       apiDocs: 'Document',
+      resources: 'เอกสาร',
+      document: 'Document',
+      slide: 'Slide',
+      signUp: 'สมัครใช้งาน',
+      login: 'เข้าสู่ระบบ',
+      contactUs: 'ติดต่อเรา',
+      privacy: 'ความเป็นส่วนตัว',
     },
     hero: {
       badge: 'Non-Custodial QR Payment Gateway',
@@ -401,11 +429,39 @@ export const translations: Record<Language, Translations> = {
         errorVerification: 'ยืนยันตัวตนไม่สำเร็จ กรุณาลองใหม่อีกครั้ง',
       },
     },
+    signup: {
+      title: 'สมัครใช้บริการ',
+      subtitle: 'กรอกข้อมูลเพื่อสมัครใช้บริการ ทีมงานจะส่งลิงก์สำหรับตั้งค่าบัญชีไปทางอีเมลที่ระบุ',
+      form: {
+        emailLabel: 'Email',
+        emailPlaceholder: 'you@example.com',
+        firstNameLabel: 'ชื่อ',
+        firstNamePlaceholder: 'ชื่อจริง',
+        lastNameLabel: 'นามสกุล',
+        lastNamePlaceholder: 'นามสกุล',
+        phoneLabel: 'เบอร์โทร',
+        phonePlaceholder: 'เบอร์โทรศัพท์',
+        adminDomainLabel: 'Admin Domain',
+        adminDomainHint: 'โดเมนสำหรับเข้าใช้งานระบบของคุณ',
+        submit: 'สมัครใช้บริการ',
+        submitting: 'กำลังส่งคำขอ...',
+        success: 'ส่งคำขอสมัครใช้บริการเรียบร้อยแล้ว กรุณาตรวจสอบอีเมลของคุณ',
+        error: 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง',
+        errorVerification: 'ยืนยันตัวตนไม่สำเร็จ กรุณาลองใหม่อีกครั้ง',
+      },
+    },
   },
   en: {
     nav: {
       comingSoon: 'Coming soon',
       apiDocs: 'Document',
+      resources: 'Resources',
+      document: 'Document',
+      slide: 'Slide',
+      signUp: 'Sign Up',
+      login: 'Login',
+      contactUs: 'Contact Us',
+      privacy: 'Privacy',
     },
     hero: {
       badge: 'Non-Custodial QR Payment Gateway',
@@ -687,6 +743,27 @@ export const translations: Record<Language, Translations> = {
         submit: 'Submit Form',
         submitting: 'Sending...',
         success: "Your message has been sent. We'll get back to you as soon as possible.",
+        error: 'Something went wrong. Please try again.',
+        errorVerification: 'Verification failed. Please try again.',
+      },
+    },
+    signup: {
+      title: 'Sign Up',
+      subtitle: "Fill in your details to sign up. We'll email you a link to set up your account.",
+      form: {
+        emailLabel: 'Email',
+        emailPlaceholder: 'you@example.com',
+        firstNameLabel: 'First Name',
+        firstNamePlaceholder: 'First name',
+        lastNameLabel: 'Last Name',
+        lastNamePlaceholder: 'Last name',
+        phoneLabel: 'Phone Number',
+        phonePlaceholder: 'Phone number',
+        adminDomainLabel: 'Admin Domain',
+        adminDomainHint: 'The domain you will use to access your account',
+        submit: 'Sign Up',
+        submitting: 'Submitting...',
+        success: "Your sign-up request has been submitted. Please check your email.",
         error: 'Something went wrong. Please try again.',
         errorVerification: 'Verification failed. Please try again.',
       },
