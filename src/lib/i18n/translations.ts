@@ -1,7 +1,7 @@
 export type Language = 'th' | 'en'
 
 export interface Translations {
-  nav: { comingSoon: string; apiDocs: string; resources: string; document: string; slide: string; signUp: string; login: string }
+  nav: { comingSoon: string; apiDocs: string; resources: string; document: string; slide: string; signUp: string; login: string; contactUs: string; privacy: string }
   hero: { badge: string; headline: string; headlineAccent: string; description: string }
   howItWorks: {
     heading: string
@@ -140,8 +140,10 @@ export const translations: Record<Language, Translations> = {
       resources: 'เอกสาร',
       document: 'Document',
       slide: 'Slide',
-      signUp: 'Sign Up',
-      login: 'Login',
+      signUp: 'สมัครใช้งาน',
+      login: 'เข้าสู่ระบบ',
+      contactUs: 'ติดต่อเรา',
+      privacy: 'ความเป็นส่วนตัว',
     },
     hero: {
       badge: 'Non-Custodial QR Payment Gateway',
@@ -458,6 +460,8 @@ export const translations: Record<Language, Translations> = {
       slide: 'Slide',
       signUp: 'Sign Up',
       login: 'Login',
+      contactUs: 'Contact Us',
+      privacy: 'Privacy',
     },
     hero: {
       badge: 'Non-Custodial QR Payment Gateway',

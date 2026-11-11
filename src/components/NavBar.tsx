@@ -109,6 +109,12 @@ export function NavBar() {
                 {link}
               </a>
             ))}
+            <a
+              href="/signup"
+              className="ml-2 px-4 py-1.5 rounded-lg text-xs font-semibold text-white bg-primary-500 hover:bg-primary-400 transition-all"
+            >
+              {t.nav.signUp}
+            </a>
           </div>
           <div className="flex items-center gap-3">
             <a
@@ -119,7 +125,7 @@ export function NavBar() {
                   : 'text-slate-400 hover:text-white hover:bg-slate-700/60'
               }`}
             >
-              Contact Us
+              {t.nav.contactUs}
             </a>
             <ResourcesDropdown pathname={pathname} />
             <a
@@ -130,7 +136,7 @@ export function NavBar() {
                   : 'text-slate-400 hover:text-white hover:bg-slate-700/60'
               }`}
             >
-              Privacy
+              {t.nav.privacy}
             </a>
             <span className="text-slate-700">|</span>
             <button
@@ -140,12 +146,6 @@ export function NavBar() {
             >
               {t.nav.login}
             </button>
-            <a
-              href="/signup"
-              className="px-4 py-1.5 rounded-lg text-xs font-semibold text-white bg-primary-500 hover:bg-primary-400 transition-all"
-            >
-              {t.nav.signUp}
-            </a>
             <LangToggle />
           </div>
         </div>
