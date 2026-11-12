@@ -70,10 +70,13 @@ export async function POST(req: NextRequest) {
       }),
     })
 
-    const data = await res.json().catch(() => ({}))
+    const rawBody = await res.text()
+    const data = (() => { try { return JSON.parse(rawBody) } catch { return {} } })()
     const status = data?.status ?? data?.Status
 
     if (status !== 'OK') {
+      // Log the real backend response to help diagnose the live dev/prod signup error next time
+      console.error('signup CreatePleasePaymentRegistrationLink non-OK response', { httpStatus: res.status, body: rawBody?.slice(0, 500) })
       return NextResponse.json({ error: 'api_error', status, description: data?.description ?? data?.Description }, { status: 400 })
     }
 
