@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/lib/i18n/LanguageContext'
-import { deriveSiblingDomain } from '@/lib/domain'
 
 const TURNSTILE_SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
 
@@ -19,17 +18,10 @@ export function SignUpForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   const [phone, setPhone] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [errorDesc, setErrorDesc] = useState('')
-  const [adminDomain, setAdminDomain] = useState('')
 
   const widgetRef = useRef<HTMLDivElement>(null)
   const widgetId = useRef<string | null>(null)
   const turnstileToken = useRef<string>('')
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setAdminDomain(`https://${deriveSiblingDomain(window.location.hostname, 'admin')}`)
-    }
-  }, [])
 
   useEffect(() => {
     if (!turnstileSiteKey) return
@@ -162,16 +154,6 @@ export function SignUpForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               placeholder={f.phonePlaceholder}
               className="w-full rounded-lg bg-slate-800/60 border border-slate-700 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500/60"
             />
-          </div>
-
-          <div>
-            <label className="block text-sm text-slate-300 mb-1.5">{f.adminDomainLabel}</label>
-            <input
-              value={adminDomain}
-              readOnly
-              className="w-full rounded-lg bg-slate-800/30 border border-slate-700 px-3.5 py-2.5 text-sm text-slate-400 cursor-not-allowed"
-            />
-            <p className="text-xs text-slate-500 mt-1">{f.adminDomainHint}</p>
           </div>
 
           <div ref={widgetRef} />
