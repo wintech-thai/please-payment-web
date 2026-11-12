@@ -74,7 +74,7 @@ export function SignUpForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
       const res = await fetch('/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, firstName, lastName, phone, lang, turnstileToken: turnstileToken.current }),
+        body: JSON.stringify({ email, firstName, lastName, phone, lang, turnstileToken: turnstileToken.current, siteHost: window.location.host }),
       })
 
       if (res.ok) {

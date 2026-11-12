@@ -21,14 +21,14 @@ async function verifyTurnstile(token: string, remoteIp: string | null) {
 }
 
 export async function POST(req: NextRequest) {
-  let payload: { email?: string; firstName?: string; lastName?: string; phone?: string; lang?: string; turnstileToken?: string }
+  let payload: { email?: string; firstName?: string; lastName?: string; phone?: string; lang?: string; turnstileToken?: string; siteHost?: string }
   try {
     payload = await req.json()
   } catch {
     return NextResponse.json({ error: 'invalid_body' }, { status: 400 })
   }
 
-  const { email, firstName, lastName, phone, lang, turnstileToken } = payload
+  const { email, firstName, lastName, phone, lang, turnstileToken, siteHost: clientSiteHost } = payload
   if (!email) {
     return NextResponse.json({ error: 'missing_fields' }, { status: 400 })
   }
@@ -43,8 +43,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'verification' }, { status: 400 })
   }
 
-  // x093 6.ii.2a : Admin Domain ถูก fix ไว้ ไม่ให้ client เปลี่ยนได้ — derive จาก hostname ของเว็บนี้เองเสมอ
-  const siteHost = req.headers.get('host') || 'please-payment.com'
+  // Prefer the browser's own window.location.host over the Host header, which a proxy hop can rewrite to an internal hostname
+  const isValidHostname = (h: string) => /^[a-zA-Z0-9.-]{1,253}$/.test(h)
+  const siteHost = (clientSiteHost && isValidHostname(clientSiteHost)) ? clientSiteHost : (req.headers.get('host') || 'please-payment.com')
   const adminDomain = `https://${deriveSiblingDomain(siteHost, 'admin')}`
 
   if (!BACKEND_URL || !PP_API_KEY) {
